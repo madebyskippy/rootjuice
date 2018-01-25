@@ -41,6 +41,8 @@ PImage introtext;
 PImage[][] feedback = new PImage[2][3];
 PImage[] numbs = new PImage[12];
 PImage circle;
+PImage yourjuice;
+PImage desiredjuice;
 
 String mode; //start, intro, play, end
 
@@ -60,7 +62,7 @@ void setup(){
   instruc = loadImage("instruc.png");
   
   bottle = loadImage("bottle_big.png");
-  basket = loadImage("basket_big.png");
+  basket = loadImage("blender.png");
   carrot = loadImage("carrot.png");
   daikon = loadImage("daikon.png");
   introtext = loadImage("introtext.png");
@@ -72,6 +74,9 @@ void setup(){
   feedback[1][1] = loadImage("dscore1.png");
   feedback[1][2] = loadImage("amazing.png");
   circle = loadImage("circle.png");
+  
+  yourjuice = loadImage("yourjuice.png");
+  desiredjuice = loadImage("desiredjuice.png");
   
   for (int i=0; i<10; i++){
     numbs[i] = loadImage(str(i)+".png");
@@ -88,7 +93,7 @@ void setup(){
 
   startscreen_setup();
   
-  size(1000,1000);
+  size(1500,1000);
   //fullScreen();
   reset();
 }

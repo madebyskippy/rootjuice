@@ -5,7 +5,7 @@ int counter;
 
 void startscreen_setup(){
   title_x = width/2-title.width/2;
-  title_y = height/5;
+  title_y = height/3;
   
   instruc_x = width/2-instruc.width/2;
   instruc_y = title_y+200;
@@ -47,7 +47,7 @@ void introscreen(){
   bottledraw();
   playerdraw();
   
-  image(introtext,width/2-introtext.width/2, 85,introtext.width,introtext.height);
+  image(introtext,width/2-introtext.width/2, 200,introtext.width,introtext.height);
   
   timerdraw((float)introtime);
   
@@ -89,8 +89,8 @@ void gamescreen(){
 
 void endscreen(){
   playerdraw();
-  bottledraw();
-  result();
+  //bottledraw();
+  //result();
   
   feedback();
   
@@ -119,18 +119,17 @@ void imageCenter(PImage img, float x, float y){
 }
 
 void progress(){
-  
+  noStroke();
   float total = score[0]+score[1];
-  float h = 220/total;
+  float h = 400/total;
   fill(colors[0],colors[1],colors[2]);
   for(int i=0; i<total; i++){
     if (i>=score[0]){
       fill(colors[3],colors[4],colors[5]);
     }
-    rect(width/2-basket.width/2+20,height-bottle.height-50-basket.height-50+i*h,basket.width-60,h);
+    rect(width/2-basket.width/2+20,height-basket.height-75+i*h,basket.width-60,h);
   }
-  image(basket,width/2-basket.width/2-10,height-bottle.height-50-basket.height-100,basket.width,basket.height);
-  
+  image(basket,width/2-basket.width/2-10,height-basket.height-100,basket.width,basket.height);
 }
 
 void result(){
@@ -149,57 +148,59 @@ void result(){
 }
 
 void feedback(){
-  float topcirclex = width/2 + basket.width/2-circle.width;
-  float topcircley = 100+basket.height-circle.height;
-  image(circle,topcirclex,topcircley,circle.width,circle.height);
-  float bottomcirclex = width/2 - bottle.width/2;
-  float bottomcircley = height-50-circle.height;
-  image(circle,bottomcirclex,bottomcircley,circle.width,circle.height);
+  //float topcirclex = width/2 + basket.width/2-circle.width;
+  //float topcircley = 100+basket.height-circle.height;
+  //image(circle,topcirclex,topcircley,circle.width,circle.height);
+  //float bottomcirclex = width/2 - bottle.width/2;
+  //float bottomcircley = height-50-circle.height;
+  //image(circle,bottomcirclex,bottomcircley,circle.width,circle.height);
   
-  int scarrot = round(((float)score[0]/(float)(score[0]+score[1]))*10);
-  int sdaikon = round(((float)score[1]/(float)(score[0]+score[1]))*10);
+  //int scarrot = round(((float)score[0]/(float)(score[0]+score[1]))*10);
+  //int sdaikon = round(((float)score[1]/(float)(score[0]+score[1]))*10);
   
-  int carrotf = 0;
-  if (scarrot != juice[0]){
-    if (scarrot > juice[0]){
-      carrotf = 1;
-    }
-  }else{
-    carrotf = 2;
-  }
-  PImage f1 = feedback[0][carrotf];
-  image(f1,width/2-f1.width-200,height-squatter[0].height-150,f1.width,f1.height);
-  int daikonf = 0;
-  if (sdaikon != juice[1]){
-    if (sdaikon > juice[1]){
-      daikonf = 1;
-    }
-  }else{
-    daikonf = 2;
-  }
-  PImage f2 = feedback[1][daikonf];
-  image(f2,width/2+200,height-squatter[0].height-150,f2.width,f2.height);
+  //int carrotf = 0;
+  //if (scarrot != juice[0]){
+  //  if (scarrot > juice[0]){
+  //    carrotf = 1;
+  //  }
+  //}else{
+  //  carrotf = 2;
+  //}
+  //PImage f1 = feedback[0][carrotf];
+  //image(f1,width/2-f1.width-200,height-squatter[0].height-150,f1.width,f1.height);
+  //int daikonf = 0;
+  //if (sdaikon != juice[1]){
+  //  if (sdaikon > juice[1]){
+  //    daikonf = 1;
+  //  }
+  //}else{
+  //  daikonf = 2;
+  //}
+  //PImage f2 = feedback[1][daikonf];
+  //image(f2,width/2+200,height-squatter[0].height-150,f2.width,f2.height);
   
   
-  tint(colors[0],colors[1],colors[2]);
-  image(numbs[scarrot],topcirclex+25,topcircley+37);
-  image(numbs[11],topcirclex+45,topcircley+37);
-  tint(colors[3],colors[4],colors[5]);
-  image(numbs[sdaikon],topcirclex+55,topcircley+37);
+  //tint(colors[0],colors[1],colors[2]);
+  //image(numbs[scarrot],topcirclex+25,topcircley+37);
+  //image(numbs[11],topcirclex+45,topcircley+37);
+  //tint(colors[3],colors[4],colors[5]);
+  //image(numbs[sdaikon],topcirclex+55,topcircley+37);
   
-  tint(colors[0],colors[1],colors[2]);
-  image(numbs[juice[0]],bottomcirclex+25,bottomcircley+37);
-  image(numbs[11],bottomcirclex+45,bottomcircley+37);
-  tint(colors[3],colors[4],colors[5]);
-  image(numbs[juice[1]],bottomcirclex+55,bottomcircley+37);
-  noTint();
+  //tint(colors[0],colors[1],colors[2]);
+  //image(numbs[juice[0]],bottomcirclex+25,bottomcircley+37);
+  //image(numbs[11],bottomcirclex+45,bottomcircley+37);
+  //tint(colors[3],colors[4],colors[5]);
+  //image(numbs[juice[1]],bottomcirclex+55,bottomcircley+37);
+  //noTint();
+  
+  gradientbar();
 }
 
 void gradientbar(){
   float centerx = width/2;
   float centery = height/2;
-  float cwidth = 30;
-  float cheight = 30;
+  float cwidth = 200;
+  float cheight = 50;
   float c[] = new float[3];
   c[0] = 0; c[1] = 0; c[2] = 0;
   noStroke();
@@ -208,33 +209,56 @@ void gradientbar(){
     c [1] = colors[4]+(colors[1]-colors[4])*i/12;
     c [2] = colors[5]+(colors[2]-colors[5])*i/12;
     fill(c[0],c[1],c[2]);
-    rect(centerx-6*cwidth+cwidth*i,centery,cwidth,cheight);
+    rect(centerx-cwidth/2,centery-6*cheight+cheight*i,cwidth,cheight);
   }
+  
+  //your juice
+  int scarrot = round(((float)score[0]/(float)(score[0]+score[1]))*10);
+  image(yourjuice,width/2-cwidth/2-yourjuice.width,centery-7*cheight+scarrot*cheight);
+  //desired juice
+  image(desiredjuice,width/2+cwidth/2,centery-7*cheight+juice[0]*cheight);
 }
 
 void timerdraw(float total){
+  int size = 300;
+  float x=width/2;
+  float y=0;
+  
+  noStroke();
+  fill(255);
+  arc(x,y,size,size,0,PI,OPEN);
+  
+  fill(150);
+  arc (x,y, size,size,0,((float)timer/total)*PI);
+  
   noFill();
   stroke(0);
-  strokeWeight(3);
-  arc(width/2,0,100,100,0,PI,OPEN);
-  noStroke();
-  fill(0);
-  arc (width/2, 0, 100,100,0,((float)timer/total)*PI);
+  strokeWeight(5);
+  arc(x,y,size,size,0,PI,OPEN);
+  
+  float angle = TWO_PI/20;
+  stroke(0);
+  for (int i=0; i<11; i++){
+    //circumference...
+    line(size/2*sin(angle*i-PI/2)+x,size/2*cos(angle*i-PI/2)+y,
+        size/2*0.9f*sin(angle*i-PI/2)+x,size/2*0.9f*cos(angle*i-PI/2)+y);
+  }
 }
 
 void playerdraw(){
   float xscale = squatter[0].width;
   float yscale = squatter[1].height;
-  image(squatter[1], width/2+200, height-yscale-50, xscale, yscale);
-  image(squatter[0], width/2-xscale-200, height-yscale-50, xscale, yscale);
+  image(squatter[1], width/2+350, height-yscale-50, xscale, yscale);
+  image(squatter[0], width/2-xscale-350, height-yscale-50, xscale, yscale);
 }
 
 void bottledraw(){
-  //draw bottle
   noStroke();
   fill(juicecolor[0], juicecolor[1], juicecolor[2]);
-  rect(width/2-80,height-bottle.height-48,165,bottle.height-3);
-  image(bottle,width/2 - bottle.width/2,height-bottle.height-50,bottle.width,bottle.height);
+  //rect(width/2-80,height-bottle.height-48,165,bottle.height-3);
+  //image(bottle,width/2 - bottle.width/2,height-bottle.height-50,bottle.width,bottle.height);
+  
+  rect(0,0,width,100);
 }
 
 void carrotdraw(){
