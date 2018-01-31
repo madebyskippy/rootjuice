@@ -29,6 +29,9 @@ int introtime = 200;
 int maxtime = 800;
 int starttime = 75;
 
+PImage background;
+PImage ground_back;
+PImage ground_front;
 PImage title, title_bg;
 PImage instruc;
 PImage[][] squatframes = new PImage[2][2];
@@ -38,11 +41,12 @@ PImage basket;
 PImage carrot;
 PImage daikon;
 PImage introtext;
-PImage[][] feedback = new PImage[2][3];
-PImage[] numbs = new PImage[12];
-PImage circle;
 PImage yourjuice;
 PImage desiredjuice;
+PImage blend;
+PImage customer;
+PImage server;
+PImage order;
 
 String mode; //start, intro, play, end
 
@@ -52,37 +56,29 @@ void setup(){
     String portName = Serial.list()[10];
     myPort = new Serial(this, portName, 9600);
   }
+  frameRate(60);
   
   minim = new Minim(this);
   carrot_noise = minim.loadFile("pickup_coin.mp3");
   daikon_noise = minim.loadFile("pickup_coin2.mp3");
   
+  background = loadImage("background.png");
+  ground_back = loadImage("ground_back.png");
+  ground_front = loadImage("ground_front.png");
+  
   title = loadImage("title.png");
   title_bg = loadImage("title_bg.png");
   instruc = loadImage("instruc.png");
   
-  bottle = loadImage("bottle_big.png");
   basket = loadImage("blender.png");
   carrot = loadImage("carrot.png");
   daikon = loadImage("daikon.png");
+  
   introtext = loadImage("introtext.png");
   
-  feedback[0][0] = loadImage("cscore0.png");
-  feedback[0][1] = loadImage("cscore1.png");
-  feedback[0][2] = loadImage("amazing.png");
-  feedback[1][0] = loadImage("dscore0.png");
-  feedback[1][1] = loadImage("dscore1.png");
-  feedback[1][2] = loadImage("amazing.png");
-  circle = loadImage("circle.png");
-  
-  yourjuice = loadImage("yourjuice.png");
-  desiredjuice = loadImage("desiredjuice.png");
-  
-  for (int i=0; i<10; i++){
-    numbs[i] = loadImage(str(i)+".png");
-  }
-  numbs[10] = loadImage("1.png");
-  numbs[11] = loadImage("dotdot.png");
+  customer = loadImage("customer.png");
+  server = loadImage("server.png");
+  order = loadImage("order.png");
   
   squatframes[0][0] = loadImage("csquat0.png");
   squatframes[0][1] = loadImage("csquat1.png");
@@ -90,11 +86,12 @@ void setup(){
   squatframes[1][1] = loadImage("dsquat1.png");
   squatter[0] = squatframes[0][0];
   squatter[1] = squatframes[1][0];
+  
 
   startscreen_setup();
   
-  size(1500,1000);
-  //fullScreen();
+  //size(1920,1080);
+  fullScreen();
   reset();
 }
 
@@ -123,10 +120,7 @@ void draw(){
     }
   }
   
-  background(#ffffff);
-  //background(#f9f4e3);
-  //stroke(#d40103);
-  stroke(255);
+  background(#f2ffe2);
   
   if (mode=="start"){
     //intro game and show instructions
