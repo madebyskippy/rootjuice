@@ -3,9 +3,17 @@ float title_x, title_y;
 int instruc_change = 1;
 int counter;
 
-int playeroffset = 200; //for panning up/down
+int introtime = 250;
+int maxtime = 800;
+int starttime = 75;
 
 int pantime = 100;
+int goalshowtime = 50;
+int goalpantime = 100;
+
+float goalheight;
+int goalsize = 100;
+int playeroffset = 200; //for panning up/down
 float offset;
 
 int[] bcolor = new int[]{242,255,226};
@@ -45,6 +53,7 @@ void startscreen(){
     mode = "intro";
     timer = 0;
     offset = 0;
+    goalheight = 0;
   }
   
   timerdraw((float)starttime);
@@ -54,10 +63,14 @@ void introscreen(){
   timer = timer + 1;
   if (timer < pantime){
     offset = offset + ((float)playeroffset/(float)pantime);
-  }else if (timer >= pantime){
+  }else if (timer < pantime+goalshowtime){
     offset = playeroffset;
+    goalheight=height;
+  }else if (timer < pantime+goalshowtime+goalpantime){
+    offset = playeroffset;
+    goalheight = goalheight - (float)(height-goalsize)/(float)goalpantime;
   }
-  
+  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight);
   backgrounddraw(offset);
   playerdraw(offset);
   
@@ -73,8 +86,9 @@ void introscreen(){
 
 void gamescreen(){
   backgrounddraw(playeroffset);
-  timer = timer + 1;
+  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize);
   
+  timer = timer + 1;
   timerdraw((float)maxtime);
     
   if (carrotstate > -1){

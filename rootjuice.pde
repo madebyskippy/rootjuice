@@ -25,9 +25,6 @@ float[] juicecolor = {0,0,0};
 float[] scorecolor = {0,0,0};
 
 int timer;
-int introtime = 200;
-int maxtime = 800;
-int starttime = 75;
 
 PImage background;
 PImage ground_back;
@@ -36,13 +33,12 @@ PImage title, title_bg;
 PImage instruc;
 PImage[][] squatframes = new PImage[2][2];
 PImage[] squatter = new PImage[2];
-PImage bottle;
-PImage basket;
+PImage blender;
+PImage blender_empty;
+PImage blender_mask;
 PImage carrot;
 PImage daikon;
 PImage introtext;
-PImage yourjuice;
-PImage desiredjuice;
 PImage blend;
 PImage customer;
 PImage server;
@@ -70,7 +66,9 @@ void setup(){
   title_bg = loadImage("title_bg.png");
   instruc = loadImage("instruc.png");
   
-  basket = loadImage("blender.png");
+  blender = loadImage("blender.png");
+  blender_empty = loadImage("blender_empty.png");
+  blender_mask = loadImage("blender_mask.png");
   carrot = loadImage("carrot.png");
   daikon = loadImage("daikon.png");
   

@@ -10,6 +10,12 @@ void backgrounddraw(float offset){
   image(ground_back,width/2-ground_back.width/2,height/2+offset);
 }
 
+void goaldraw(int r, int g, int b, float h){
+  fill(r,g,b);
+  noStroke();
+  rect(0,0,width,h);
+}
+
 void progress(){
   noStroke();
   float total = score[0]+score[1];
@@ -19,16 +25,16 @@ void progress(){
     if (i>=score[0]){
       fill(colors[3],colors[4],colors[5]);
     }
-    rect(width/2-basket.width/2+20,height-basket.height-75+i*h,basket.width-60,h);
+    rect(width/2-blender.width/2+20,height-blender.height-75+i*h,blender.width-60,h);
   }
   tint(#f2ffe2);
-  image(basket,width/2-basket.width/2-10,height-basket.height-100,basket.width,basket.height);
+  image(blender,width/2-blender.width/2-10,height-blender.height-100,blender.width,blender.height);
   tint(255);
 }
 
 void gradientbar(){
   float centerx = width/2;
-  float centery = height/3+100;
+  float centery = height/3+50;
   float cwidth = 150;
   float cheight = 175;
   float c[] = new float[3];
