@@ -9,6 +9,7 @@ int starttime = 75;
 
 int pantime = 100;
 int blenderdowntime = 100;
+float blendercoef = 0; //for making the blender poof down
 int goalshowtime = 50;
 int goalpantime = 100;
 
@@ -24,19 +25,20 @@ int[] bcolor = new int[]{242,255,226};
 
 void startscreen_setup(){
   title_x = width/2-title.width/2;
-  title_y = height/3;
+  title_y = height*2/3;
   
   instruc_x = width/2-instruc.width/2;
-  instruc_y = title_y+200;
+  instruc_y = height/3;
 }
 void gamescreen_setup(){
   blendx = width/2-blender.width/2-10;
   blendy = height-blender.height-300;
+  blendercoef = (float)(blendy+blender.height)/(float)(blenderdowntime*blenderdowntime);
 }
 
 void startscreen(){
   backgrounddraw(0);
-  if(instruc_y < title_y+200 || instruc_y > title_y+205) instruc_change *= -1;
+  if(instruc_y < height/3-5 || instruc_y > height/3+5) instruc_change *= -1;
   instruc_y += instruc_change;
   
   pushMatrix();
@@ -74,22 +76,25 @@ void introscreen(){
     offset = offset + ((float)playeroffset/(float)pantime);
     blendery = -blender.height; //off screen
   }else if (timer < pantime+blenderdowntime){
-    blendery = -blender.height+(timer-pantime);
+    blendery = -blender.height+blendercoef*(timer-pantime)*(timer-pantime);
   }else if (timer < pantime+blenderdowntime+goalshowtime){
     offset = playeroffset;
     goalheight=height;
-    blendery = height-blender.height-300;
+    blendery = blendy;
   }else if (timer < pantime+blenderdowntime+goalshowtime+goalpantime){
     offset = playeroffset;
     goalheight = goalheight - (float)(height-goalsize)/(float)goalpantime;
-    blendery = height-blender.height-300;
+    blendery = blendy;
+  }else{
+    offset = playeroffset;
+    goalheight = goalsize;
+    blendery = blendy;
   }
+  
   goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight);
   backgrounddraw(offset);
   playerdraw(offset);
-  image(blender,width/2-blender.width/2,blendery);
-  
-  image(introtext,width/2-introtext.width/2, 200);
+  image(blender,blendx,blendery);
   
   timerdraw((float)(introtime+pantime));
   
