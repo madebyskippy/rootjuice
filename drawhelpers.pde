@@ -10,6 +10,31 @@ void backgrounddraw(float offset){
   image(ground_back,width/2-ground_back.width/2,height/2+offset);
 }
 
+//showing input detection
+void meterdraw(float offset){
+  int x = width/2-250;
+  int y = height/2+100+(int)offset;
+  int w = 500;
+  int h = 50;
+  //background color
+  fill(#e6bea8);
+  noStroke();
+  rect(x,y,w,h);
+  
+  //fillings
+  fill(colors[0],colors[1],colors[2]);
+  rect(x,y,(w/2)*carrotmeter/pushtime,h);
+  fill(colors[3],colors[4],colors[5]);
+  rect(x+w,y,-1*(w/2)*daikonmeter/pushtime,h);
+  
+  //lines
+  noFill();
+  strokeWeight(5);
+  stroke(0);
+  rect(x,y,w,h);
+  line(x+w/2,y,width/2,y+h);
+}
+
 void goaldraw(int r, int g, int b, float h){
   fill(r,g,b);
   noStroke();

@@ -18,6 +18,9 @@ boolean daikondown = false;
 float carrotstate = -1;
 float daikonstate = -1;
 
+float carrotmeter=0;
+float daikonmeter=0;
+
 int[] juice = {0,0};
 int[] score = {0,0};
 
@@ -33,6 +36,7 @@ PImage title, title_bg;
 PImage instruc;
 
 PImage[] dump = new PImage[4];
+PImage[] tut = new PImage[4];
 PImage introtext;
 
 PImage[][] squatframes = new PImage[2][2];
@@ -81,6 +85,7 @@ void setup(){
   introtext = loadImage("introtext.png");
   for (int i=0; i<dump.length; i++){
     dump[i] = loadImage("dump"+str(i+1)+".png");
+    tut[i] = loadImage("tut"+str(i+1)+".png");
   }
   
   customer = loadImage("customer.png");
@@ -194,6 +199,7 @@ void carrotIn(){
 }
 void carrotOut(){
    carrotdown = false;
+   carrotmeter = 0;
    squatter[0] = squatframes[0][0];
 }
 void daikonIn(){
@@ -212,6 +218,7 @@ void daikonIn(){
 }
 void daikonOut(){
    daikondown = false;
+   daikonmeter = 0;
    squatter[1] = squatframes[1][0];
 }
 
@@ -223,6 +230,8 @@ void reset(){
   score[1] = 0;
   carrotstate = -1;
   daikonstate = -1;
+  carrotmeter = 0;
+  daikonmeter = 0;
   
   juice[0] = round(random(0,10));
   juice[1] = 10-juice[0];

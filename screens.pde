@@ -6,13 +6,15 @@ int counter;
 int introtime = 350;
 int maxtime = 800;
 int starttime = 75;
+int pushtime = 75;
 
 int pantime = 100;
 int blenderdowntime = 50;
-int tutorialtime = 300;
-int[] tutorialtimes = new int[]{100,100,100};
-int goalshowtime = 50;
-int goalpantime = 100;
+int tutorialtime = 600;
+int[] tutorialtimes = new int[]{200,200,200};
+int tutx,tuty;
+int goalshowtime = 150;
+int goalpantime = 150;
 
 float blendercoef = 0; //for making the blender poof down
 
@@ -28,20 +30,23 @@ int[] bcolor = new int[]{242,255,226};
 
 void startscreen_setup(){
   title_x = width/2-title.width/2;
-  title_y = height*2/3;
+  title_y = 100;
   
   instruc_x = width/2-instruc.width/2;
-  instruc_y = height/3;
+  instruc_y = height*3/4;
 }
+
 void gamescreen_setup(){
   blendx = width/2-blender.width/2-10;
   blendy = height-blender.height-300;
   blendercoef = (float)(blendy+blender.height)/(float)(blenderdowntime*blenderdowntime);
+  tutx = width/2+50;
+  tuty = 100;
 }
 
 void startscreen(){
   backgrounddraw(0);
-  if(instruc_y < height/3-5 || instruc_y > height/3+5) instruc_change *= -1;
+  if(instruc_y < height*3/4-5 || instruc_y > height*3/4+5) instruc_change *= -1;
   instruc_y += instruc_change;
   
   pushMatrix();
@@ -57,19 +62,20 @@ void startscreen(){
 
   playerdraw(0);
   
-  if (carrotdown && daikondown){
-    timer += 1;
-  }if (!carrotdown || !daikondown){
-    timer = 0;
+  if (carrotdown){
+    carrotmeter = min(carrotmeter+1,pushtime);
+  }if (daikondown){
+    daikonmeter = min(daikonmeter+1,pushtime);
   }
-  if (timer > starttime){
+  
+  if (carrotmeter >= pushtime && daikonmeter >= pushtime){
     mode = "intro";
     timer = 0;
     offset = 0;
     goalheight = 0;
   }
   
-  timerdraw((float)starttime);
+  meterdraw(0);
 }
 
 void introscreen(){
@@ -78,7 +84,6 @@ void introscreen(){
   int d = -1;
   
   //this is the worst way to do an if statement for timing :^)
-  
   
   if (timer < pantime){
     offset = offset + ((float)playeroffset/(float)pantime);
@@ -116,8 +121,10 @@ void introscreen(){
   playerdraw(offset);
   image(blender,blendx,blendery);
   
-  if (d>=0)
-    image (dump[d],100,height/4);
+  if (d>=0){
+    image (dump[d],50,height/4);
+    image (tut[d],tutx,tuty);
+  }
 
 }
 
@@ -171,16 +178,30 @@ void endscreen(){
   
   result();
   
-  if (carrotdown && daikondown){
-    timer += 1;
-  }if (!carrotdown || !daikondown){
-    timer = 0;
+  //if (carrotdown && daikondown){
+  //  timer += 1;
+  //}if (!carrotdown || !daikondown){
+  //  timer = 0;
+  //}
+  //if (timer > starttime){
+  //  mode = "start";
+  //  timer = 0;
+  //  reset();
+  //}
+  
+  //timerdraw((float)starttime);
+  
+  if (carrotdown){
+    carrotmeter = min(carrotmeter+1,pushtime);
+  }if (daikondown){
+    daikonmeter = min(daikonmeter+1,pushtime);
   }
-  if (timer > starttime){
+  
+  if (carrotmeter >= pushtime && daikonmeter >= pushtime){
     mode = "start";
     timer = 0;
     reset();
   }
   
-  timerdraw((float)starttime);
+  meterdraw(playeroffset);
 }
