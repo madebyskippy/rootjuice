@@ -31,15 +31,20 @@ PImage ground_back;
 PImage ground_front;
 PImage title, title_bg;
 PImage instruc;
+
+PImage[] dump = new PImage[4];
+PImage introtext;
+
 PImage[][] squatframes = new PImage[2][2];
 PImage[] squatter = new PImage[2];
+
 PImage blender;
 PImage blender_empty;
 PImage blender_mask;
+PImage mountains_mask;
 PImage carrot;
 PImage daikon;
-PImage introtext;
-PImage blend;
+
 PImage customer;
 PImage server;
 PImage order;
@@ -69,10 +74,14 @@ void setup(){
   blender = loadImage("blender.png");
   blender_empty = loadImage("blender_empty.png");
   blender_mask = loadImage("blender_mask.png");
+  mountains_mask = loadImage("mountains.png");
   carrot = loadImage("carrot.png");
   daikon = loadImage("daikon.png");
   
   introtext = loadImage("introtext.png");
+  for (int i=0; i<dump.length; i++){
+    dump[i] = loadImage("dump"+str(i+1)+".png");
+  }
   
   customer = loadImage("customer.png");
   server = loadImage("server.png");
@@ -87,6 +96,7 @@ void setup(){
   
 
   startscreen_setup();
+  gamescreen_setup();
   
   //size(1920,1080);
   fullScreen();

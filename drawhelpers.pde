@@ -18,21 +18,26 @@ void goaldraw(int r, int g, int b, float h){
 
 void progress(){
   noStroke();
+  
   float total = score[0]+score[1];
-  float h = 400/total;
+  float h = (float)(blender.height-70)/total;
+  fill(255);
+  rect(blendx,blendy,blender.width-50,blender.height-70);
   fill(colors[0],colors[1],colors[2]);
   for(int i=0; i<total; i++){
     if (i>=score[0]){
       fill(colors[3],colors[4],colors[5]);
     }
-    rect(width/2-blender.width/2+20,height-blender.height-75+i*h,blender.width-60,h);
+    rect(blendx,blendy+i*h,blender.width-50,h);
   }
   tint(#f2ffe2);
-  image(blender,width/2-blender.width/2-10,height-blender.height-100,blender.width,blender.height);
+  image(blender_mask,blendx,blendy-5);
   tint(255);
+  image(mountains_mask,width/2-mountains_mask.width/2-3,height/2+27);
+  image(blender_empty,blendx,blendy);
 }
 
-void gradientbar(){
+void result(){
   float centerx = width/2;
   float centery = height/3+50;
   float cwidth = 150;
@@ -41,6 +46,8 @@ void gradientbar(){
   c[0] = 0; c[1] = 0; c[2] = 0;
   noStroke();
   float x=0,y=0;
+  float custx=0,custy=0;
+  float servx=0,servy=0;
   
   int scarrot = round(((float)score[0]/(float)(score[0]+score[1]))*10);
   
@@ -62,12 +69,14 @@ void gradientbar(){
     image(order,x,y);
     
     if (juice[0] == i){
-      image(customer,x+15,y-120);
+      custx=x; custy=y;
     }
     if (scarrot == i){
-      image(server,x-25,y+125);
+      servx=x;servy=y;
     }
   }
+  image(customer,custx-5,custy-145);
+  image(server,servx-65,servy+125);
 }
 
 void timerdraw(float total){

@@ -3,11 +3,12 @@ float title_x, title_y;
 int instruc_change = 1;
 int counter;
 
-int introtime = 250;
+int introtime = 350;
 int maxtime = 800;
 int starttime = 75;
 
 int pantime = 100;
+int blenderdowntime = 100;
 int goalshowtime = 50;
 int goalpantime = 100;
 
@@ -15,6 +16,9 @@ float goalheight;
 int goalsize = 100;
 int playeroffset = 200; //for panning up/down
 float offset;
+  
+int blendx;
+int blendy;
 
 int[] bcolor = new int[]{242,255,226};
 
@@ -24,6 +28,10 @@ void startscreen_setup(){
   
   instruc_x = width/2-instruc.width/2;
   instruc_y = title_y+200;
+}
+void gamescreen_setup(){
+  blendx = width/2-blender.width/2-10;
+  blendy = height-blender.height-300;
 }
 
 void startscreen(){
@@ -61,35 +69,39 @@ void startscreen(){
 
 void introscreen(){
   timer = timer + 1;
+  float blendery=0;
   if (timer < pantime){
     offset = offset + ((float)playeroffset/(float)pantime);
-  }else if (timer < pantime+goalshowtime){
+    blendery = -blender.height; //off screen
+  }else if (timer < pantime+blenderdowntime){
+    blendery = -blender.height+(timer-pantime);
+  }else if (timer < pantime+blenderdowntime+goalshowtime){
     offset = playeroffset;
     goalheight=height;
-  }else if (timer < pantime+goalshowtime+goalpantime){
+    blendery = height-blender.height-300;
+  }else if (timer < pantime+blenderdowntime+goalshowtime+goalpantime){
     offset = playeroffset;
     goalheight = goalheight - (float)(height-goalsize)/(float)goalpantime;
+    blendery = height-blender.height-300;
   }
   goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight);
   backgrounddraw(offset);
   playerdraw(offset);
+  image(blender,width/2-blender.width/2,blendery);
   
   image(introtext,width/2-introtext.width/2, 200);
   
   timerdraw((float)(introtime+pantime));
   
-  if (timer > introtime+pantime){
+  if (timer > introtime){
     timer = 0;
     mode = "play";
   }
 }
 
 void gamescreen(){
-  backgrounddraw(playeroffset);
-  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize);
   
   timer = timer + 1;
-  timerdraw((float)maxtime);
     
   if (carrotstate > -1){
     carrotstate += .025;
@@ -103,12 +115,28 @@ void gamescreen(){
       daikonstate = -1;
     }
   }
+  
+  backgrounddraw(playeroffset);
+  
+  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize);
     
   progress();
+  
+  tint(#f2ffe2);
+  image(blender_mask,blendx,blendy-5);
+  tint(255);
+  image(mountains_mask,width/2-mountains_mask.width/2-3,height/2+27);
+  
+  image(ground_back,width/2-ground_back.width/2,height/2+offset);
+  
+  image(blender_empty,blendx,blendy);
+  
   carrotdraw();
   daikondraw();
   
   playerdraw(playeroffset);
+  
+  timerdraw((float)maxtime);
   
   if (timer > maxtime){
     mode = "end";
@@ -119,7 +147,7 @@ void endscreen(){
   backgrounddraw(playeroffset);
   playerdraw(playeroffset);
   
-  gradientbar();
+  result();
   
   if (carrotdown && daikondown){
     timer += 1;
