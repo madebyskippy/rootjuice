@@ -8,10 +8,13 @@ int maxtime = 800;
 int starttime = 75;
 
 int pantime = 100;
-int blenderdowntime = 100;
-float blendercoef = 0; //for making the blender poof down
+int blenderdowntime = 50;
+int tutorialtime = 300;
+int[] tutorialtimes = new int[]{100,100,100};
 int goalshowtime = 50;
 int goalpantime = 100;
+
+float blendercoef = 0; //for making the blender poof down
 
 float goalheight;
 int goalsize = 100;
@@ -71,24 +74,41 @@ void startscreen(){
 
 void introscreen(){
   timer = timer + 1;
-  float blendery=0;
+  float blendery=blendy;
+  int d = -1;
+  
+  //this is the worst way to do an if statement for timing :^)
+  
+  
   if (timer < pantime){
     offset = offset + ((float)playeroffset/(float)pantime);
     blendery = -blender.height; //off screen
   }else if (timer < pantime+blenderdowntime){
     blendery = -blender.height+blendercoef*(timer-pantime)*(timer-pantime);
-  }else if (timer < pantime+blenderdowntime+goalshowtime){
+  }else if (timer < pantime+blenderdowntime+tutorialtime){
+    int timetillnow = pantime+blenderdowntime;
+    int t = timer-timetillnow;
+    if (t < tutorialtimes[0]){
+      d = 0;
+    }else if (t < tutorialtimes[0]+tutorialtimes[1]){
+      d = 1;
+    }else{
+      d = 2;
+    }
+  }else if (timer < pantime+blenderdowntime+tutorialtime+goalshowtime){
+    d=3;
     offset = playeroffset;
     goalheight=height;
-    blendery = blendy;
-  }else if (timer < pantime+blenderdowntime+goalshowtime+goalpantime){
+  }else if (timer < pantime+blenderdowntime+tutorialtime+goalshowtime+goalpantime){
+    d=3;
     offset = playeroffset;
     goalheight = goalheight - (float)(height-goalsize)/(float)goalpantime;
-    blendery = blendy;
   }else{
+    d=3;
     offset = playeroffset;
     goalheight = goalsize;
-    blendery = blendy;
+    timer = 0;
+    mode = "play";
   }
   
   goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight);
@@ -96,12 +116,9 @@ void introscreen(){
   playerdraw(offset);
   image(blender,blendx,blendery);
   
-  timerdraw((float)(introtime+pantime));
-  
-  if (timer > introtime){
-    timer = 0;
-    mode = "play";
-  }
+  if (d>=0)
+    image (dump[d],100,height/4);
+
 }
 
 void gamescreen(){
