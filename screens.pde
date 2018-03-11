@@ -178,30 +178,20 @@ void endscreen(){
   
   result();
   
-  //if (carrotdown && daikondown){
-  //  timer += 1;
-  //}if (!carrotdown || !daikondown){
-  //  timer = 0;
-  //}
-  //if (timer > starttime){
-  //  mode = "start";
-  //  timer = 0;
-  //  reset();
-  //}
-  
-  //timerdraw((float)starttime);
-  
   if (carrotdown){
     carrotmeter = min(carrotmeter+1,pushtime);
   }if (daikondown){
     daikonmeter = min(daikonmeter+1,pushtime);
   }
   
-  if (carrotmeter >= pushtime && daikonmeter >= pushtime){
+  if (carrotmeter >= pushtime){// && daikonmeter >= pushtime){
+    reset();
+    timer = pantime+blenderdowntime+tutorialtime;
+    mode = "intro";
+  }if (daikonmeter >= pushtime){
     mode = "start";
     timer = 0;
     reset();
   }
-  
   meterdraw(playeroffset);
 }

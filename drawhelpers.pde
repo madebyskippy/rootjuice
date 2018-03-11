@@ -33,6 +33,15 @@ void meterdraw(float offset){
   stroke(0);
   rect(x,y,w,h);
   line(x+w/2,y,width/2,y+h);
+  
+  if (mode == "end"){
+    fill(0);
+    textSize(40);
+    textAlign(LEFT,TOP);
+    text("Replay",x,y+h*1.3);
+    textAlign(RIGHT,TOP);
+    text("Quit",x+w,y+h*1.3);
+  }
 }
 
 void goaldraw(int r, int g, int b, float h){

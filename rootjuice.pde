@@ -58,10 +58,16 @@ String mode; //start, intro, play, end
 void setup(){
   println(Serial.list());
   if (arduino){
-    String portName = Serial.list()[10];
+    String portName = Serial.list()[7];
     myPort = new Serial(this, portName, 9600);
   }
+  
   frameRate(60);
+  
+  PFont font;
+  font = loadFont("Kiddish-48.vlw");
+  textFont(font, 30);
+  textAlign(CENTER,CENTER);
   
   minim = new Minim(this);
   carrot_noise = minim.loadFile("pickup_coin.mp3");
