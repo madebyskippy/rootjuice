@@ -19,7 +19,9 @@ float carrotstate = -1;
 float daikonstate = -1;
 
 float carrotmeter=0;
+int carrotmeterstart;
 float daikonmeter=0;
+int daikonmeterstart;
 
 int[] juice = {0,0};
 int[] score = {0,0};
@@ -28,6 +30,7 @@ float[] juicecolor = {0,0,0};
 float[] scorecolor = {0,0,0};
 
 int timer;
+int timestart;
 
 PImage background;
 PImage ground_back;
@@ -193,6 +196,7 @@ void carrotIn(){
    if (!carrotdown){
      carrot_noise.rewind();
      carrot_noise.play();
+     carrotmeterstart=millis();
    }
    if (mode == "play"){
      if (!carrotdown){
@@ -212,6 +216,7 @@ void daikonIn(){
   if (!daikondown){
    daikon_noise.rewind();
    daikon_noise.play();
+   daikonmeterstart=millis();
   }
   if (mode == "play"){
     if (!daikondown){
@@ -238,6 +243,8 @@ void reset(){
   daikonstate = -1;
   carrotmeter = 0;
   daikonmeter = 0;
+  carrotmeterstart=0;
+  daikonmeterstart=0;
   
   juice[0] = round(random(0,10));
   juice[1] = 10-juice[0];

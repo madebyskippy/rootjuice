@@ -3,18 +3,18 @@ float title_x, title_y;
 int instruc_change = 1;
 int counter;
 
-int introtime = 350;
-int maxtime = 800;
-int starttime = 75;
-int pushtime = 75;
+int introtime = 6*1000;
+int maxtime = 45*1000;
+int starttime = 1500;
+int pushtime = 1500;
 
-int pantime = 100;
-int blenderdowntime = 50;
-int tutorialtime = 600;
-int[] tutorialtimes = new int[]{200,200,200};
+int pantime = 1000;
+int blenderdowntime = 1000;
+int tutorialtime = 12*1000;
+int[] tutorialtimes = new int[]{3000,4000,5000};
 int tutx,tuty;
-int goalshowtime = 150;
-int goalpantime = 150;
+int goalshowtime = 3*1000;
+int goalpantime = 3*1000;
 
 float blendercoef = 0; //for making the blender poof down
 
@@ -27,6 +27,8 @@ int blendx;
 int blendy;
 
 int[] bcolor = new int[]{242,255,226};
+
+int lastframetime;
 
 void startscreen_setup(){
   title_x = width/2-title.width/2;
@@ -63,30 +65,33 @@ void startscreen(){
   playerdraw(0);
   
   if (carrotdown){
-    carrotmeter = min(carrotmeter+1,pushtime);
+    carrotmeter = min(millis()-carrotmeterstart,pushtime);
   }if (daikondown){
-    daikonmeter = min(daikonmeter+1,pushtime);
+    daikonmeter = min(millis()-daikonmeterstart,pushtime);
   }
   
   if (carrotmeter >= pushtime && daikonmeter >= pushtime){
     mode = "intro";
     timer = 0;
+    timestart = millis();
     offset = 0;
     goalheight = 0;
+    lastframetime = millis();
   }
   
   meterdraw(0);
 }
 
 void introscreen(){
-  timer = timer + 1;
+  //timer = timer + 1;
+  timer = millis()-timestart;
   float blendery=blendy;
   int d = -1;
   
   //this is the worst way to do an if statement for timing :^)
   
   if (timer < pantime){
-    offset = offset + ((float)playeroffset/(float)pantime);
+    offset = offset + ((float)playeroffset/(float)pantime) * (millis()-lastframetime);
     blendery = -blender.height; //off screen
   }else if (timer < pantime+blenderdowntime){
     blendery = -blender.height+blendercoef*(timer-pantime)*(timer-pantime);
@@ -107,15 +112,17 @@ void introscreen(){
   }else if (timer < pantime+blenderdowntime+tutorialtime+goalshowtime+goalpantime){
     d=3;
     offset = playeroffset;
-    goalheight = goalheight - (float)(height-goalsize)/(float)goalpantime;
+    goalheight = goalheight - ((float)(height-goalsize)/(float)goalpantime) * (millis()-lastframetime);
   }else{
     d=3;
     offset = playeroffset;
     goalheight = goalsize;
     timer = 0;
+    timestart = millis();
     mode = "play";
   }
   
+  lastframetime = millis();
   goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight);
   backgrounddraw(offset);
   playerdraw(offset);
@@ -130,7 +137,8 @@ void introscreen(){
 
 void gamescreen(){
   
-  timer = timer + 1;
+  //timer = timer + 1;
+  timer = millis()-timestart;
     
   if (carrotstate > -1){
     carrotstate += .025;
@@ -179,14 +187,16 @@ void endscreen(){
   result();
   
   if (carrotdown){
-    carrotmeter = min(carrotmeter+1,pushtime);
+    carrotmeter = min(millis()-carrotmeterstart,pushtime);
   }if (daikondown){
-    daikonmeter = min(daikonmeter+1,pushtime);
+    daikonmeter = min(millis()-daikonmeterstart,pushtime);
   }
   
   if (carrotmeter >= pushtime){// && daikonmeter >= pushtime){
     reset();
-    timer = pantime+blenderdowntime+tutorialtime;
+    //timer = pantime+blenderdowntime+tutorialtime;
+    timer = 0;
+    timestart = millis() - (pantime+blenderdowntime+tutorialtime);
     mode = "intro";
   }if (daikonmeter >= pushtime){
     mode = "start";

@@ -114,7 +114,7 @@ void result(){
 }
 
 void timerdraw(float total){
-  int size = 300;
+  int size = 400;
   float x=width/2;
   float y=0;
   
