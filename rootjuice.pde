@@ -55,6 +55,10 @@ PImage daikon;
 PImage customer;
 PImage server;
 PImage order;
+PImage ordersmall;
+
+PFont fontk;
+PFont fonts;
 
 String mode; //start, intro, play, end
 
@@ -67,9 +71,9 @@ void setup(){
   
   frameRate(60);
   
-  PFont font;
-  font = loadFont("Kiddish-48.vlw");
-  textFont(font, 30);
+  fonts = loadFont("DKSnippitySnap-150.vlw");
+  fontk = loadFont("Kiddish-48.vlw");
+  textFont(fontk, 30);
   textAlign(CENTER,CENTER);
   
   minim = new Minim(this);
@@ -100,6 +104,7 @@ void setup(){
   customer = loadImage("customer.png");
   server = loadImage("server.png");
   order = loadImage("order.png");
+  ordersmall = loadImage("order_small.png");
   
   squatframes[0][0] = loadImage("csquat0.png");
   squatframes[0][1] = loadImage("csquat1.png");
@@ -180,8 +185,10 @@ void keyReleased(){
    //daikon
    daikonOut();
  }if (key == ' '){
-   if (mode == "start"){
-     mode = "intro";
+    if (mode == "start"){
+      timer = 0;
+      timestart = millis() - (pantime+blenderdowntime+tutorialtime);
+      mode = "intro";
    }else if (mode == "play"){
      if (score[0]+score[1] > 0){
        mode = "end";

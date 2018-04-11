@@ -4,7 +4,7 @@ int instruc_change = 1;
 int counter;
 
 int introtime = 6*1000;
-int maxtime = 45*1000;
+int maxtime = 10*1000;
 int starttime = 1500;
 int pushtime = 1500;
 
@@ -78,7 +78,6 @@ void startscreen(){
     goalheight = 0;
     lastframetime = millis();
   }
-  
   meterdraw(0);
 }
 
@@ -194,7 +193,6 @@ void endscreen(){
   
   if (carrotmeter >= pushtime){// && daikonmeter >= pushtime){
     reset();
-    //timer = pantime+blenderdowntime+tutorialtime;
     timer = 0;
     timestart = millis() - (pantime+blenderdowntime+tutorialtime);
     mode = "intro";

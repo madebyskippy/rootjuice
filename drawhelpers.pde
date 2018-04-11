@@ -35,6 +35,7 @@ void meterdraw(float offset){
   line(x+w/2,y,width/2,y+h);
   
   if (mode == "end"){
+    textFont(fontk, 30);
     fill(0);
     textSize(40);
     textAlign(LEFT,TOP);
@@ -85,36 +86,64 @@ void result(){
   
   int scarrot = round(((float)score[0]/(float)(score[0]+score[1]))*10);
   
+  String resulttext = "Perfect juice!";
+  if (scarrot>juice[0]){
+    resulttext = "Too much carrot!";
+  }if (scarrot < juice[0]){
+    resulttext = "Too much daikon!";
+  }
+  
+  float xalong = centerx-order.width*3.1;
+  y = centery-order.height*0.5;
   for (int i=0; i<11; i++){
+    boolean unused = true;
     c [0] = colors[3]+(colors[0]-colors[3])*i/12; 
     c [1] = colors[4]+(colors[1]-colors[4])*i/12;
     c [2] = colors[5]+(colors[2]-colors[5])*i/12;
     fill(c[0],c[1],c[2]);
-    if (i<5){
-      //row 1
-      x = centerx-order.width*2.5+order.width*i;
-      y = centery-order.height*0.9+i/5*order.height;
-    }else{
-      //row 2
-      x = centerx-order.width*3+order.width*(i-5);
-      y = centery-order.height*0.9+order.height;
+    
+    
+    x = xalong+ordersmall.width;
+    
+    if (i==0){
+      x = xalong;
+    }else if (juice[0] == (i-1) || scarrot == (i-1)){
+      x = xalong + order.width;
     }
-    rect(x+50,y+50,cwidth,cheight);
-    image(order,x,y);
+    
+    xalong = x;
     
     if (juice[0] == i){
       custx=x; custy=y;
+      unused = false;
     }
     if (scarrot == i){
       servx=x;servy=y;
+      unused = false;
     }
+    if (unused){
+      rect(x+25,y+75,70,80);
+      tint(215);
+      image(ordersmall,x,y+50);
+    }else{
+      rect(x+50,y+50,cwidth,cheight);
+      tint(255);
+      image(order,x,y);
+    }
+    
+    tint(255);
   }
   image(customer,custx-5,custy-145);
   image(server,servx-65,servy+125);
+  
+  textFont(fonts, 80);
+  textAlign(CENTER,TOP);
+  fill(0);
+  text(resulttext,width/2,50);
 }
 
 void timerdraw(float total){
-  int size = 400;
+  int size = 500;
   float x=width/2;
   float y=0;
   
@@ -122,8 +151,16 @@ void timerdraw(float total){
   fill(255);
   arc(x,y,size,size,0,PI,OPEN);
   
-  fill(150);
-  arc (x,y, size,size,0,((float)timer/total)*PI);
+  float left = (float)timer/total;
+  
+  if (left > 0.9){
+    fill(255,150,150);
+  }else if (left > 0.7){
+    fill(255,222,50);
+  }else{
+    fill(175);
+  }
+  arc (x,y, size,size,0,left*PI);
   
   noFill();
   stroke(0);
