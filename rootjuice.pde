@@ -38,8 +38,8 @@ PImage ground_front;
 PImage title, title_bg;
 PImage instruc;
 
-PImage[] dump = new PImage[4];
-PImage[] tut = new PImage[4];
+PImage[] dump = new PImage[5];
+PImage[] tut = new PImage[5];
 PImage introtext;
 
 PImage[][] squatframes = new PImage[2][2];
@@ -56,6 +56,7 @@ PImage customer;
 PImage server;
 PImage order;
 PImage ordersmall;
+PImage star;
 
 PFont fontk;
 PFont fonts;
@@ -96,15 +97,18 @@ void setup(){
   daikon = loadImage("daikon.png");
   
   introtext = loadImage("introtext.png");
-  for (int i=0; i<dump.length; i++){
+  for (int i=0; i<dump.length-1; i++){
     dump[i] = loadImage("dump"+str(i+1)+".png");
     tut[i] = loadImage("tut"+str(i+1)+".png");
   }
+  dump[4] = loadImage("dump2.png");
+  tut[4] = loadImage("tut5.png");
   
   customer = loadImage("customer.png");
   server = loadImage("server.png");
   order = loadImage("order.png");
   ordersmall = loadImage("order_small.png");
+  star = loadImage("star.png");
   
   squatframes[0][0] = loadImage("csquat0.png");
   squatframes[0][1] = loadImage("csquat1.png");

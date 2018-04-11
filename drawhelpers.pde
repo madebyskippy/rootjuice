@@ -45,10 +45,10 @@ void meterdraw(float offset){
   }
 }
 
-void goaldraw(int r, int g, int b, float h){
+void goaldraw(int r, int g, int b, float h, float w){
   fill(r,g,b);
   noStroke();
-  rect(0,0,width,h);
+  rect(width-w,0,w,h);
 }
 
 void progress(){

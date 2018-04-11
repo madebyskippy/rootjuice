@@ -19,6 +19,7 @@ int goalpantime = 3*1000;
 float blendercoef = 0; //for making the blender poof down
 
 float goalheight;
+float goalwidth;
 int goalsize = 100;
 int playeroffset = 200; //for panning up/down
 float offset;
@@ -76,7 +77,9 @@ void startscreen(){
     timestart = millis();
     offset = 0;
     goalheight = 0;
+    goalwidth = 0;
     lastframetime = millis();
+    counter = 0;
   }
   meterdraw(0);
 }
@@ -93,8 +96,10 @@ void introscreen(){
     offset = offset + ((float)playeroffset/(float)pantime) * (millis()-lastframetime);
     blendery = -blender.height; //off screen
   }else if (timer < pantime+blenderdowntime){
+    offset = playeroffset;
     blendery = -blender.height+blendercoef*(timer-pantime)*(timer-pantime);
   }else if (timer < pantime+blenderdowntime+tutorialtime){
+    offset = playeroffset;
     int timetillnow = pantime+blenderdowntime;
     int t = timer-timetillnow;
     if (t < tutorialtimes[0]){
@@ -108,24 +113,48 @@ void introscreen(){
     d=3;
     offset = playeroffset;
     goalheight=height;
+    goalwidth = 150;
   }else if (timer < pantime+blenderdowntime+tutorialtime+goalshowtime+goalpantime){
-    d=3;
+    d=4;
     offset = playeroffset;
     goalheight = goalheight - ((float)(height-goalsize)/(float)goalpantime) * (millis()-lastframetime);
+    goalwidth = goalwidth + ((float)(width)/(float)goalpantime) * (millis()-lastframetime);
   }else{
-    d=3;
+    d=4;
     offset = playeroffset;
     goalheight = goalsize;
+    goalwidth = width;
     timer = 0;
     timestart = millis();
     mode = "play";
   }
   
   lastframetime = millis();
-  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight);
+  if (d>2){
+    if (goalwidth != width){
+      tint((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]);
+      float x = width-star.width*3/4;
+      float y = -star.height*2/5-(height-goalheight);
+      
+      pushMatrix();
+      translate(x+star.width/2, y+star.height/2);
+      rotate(counter*TWO_PI/720);
+      image(star, -star.width/2, -star.height/2);
+      popMatrix();
+      counter++;
+      
+      //image(star,width-star.width*3/4,-star.height*2/5-(height-goalheight));
+      tint(255);
+    }
+    if (d>3){
+      goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize, goalwidth);
+    }
+      
+  }
   backgrounddraw(offset);
   playerdraw(offset);
   image(blender,blendx,blendery);
+  
   
   if (d>=0){
     image (dump[d],50,height/4);
@@ -154,7 +183,7 @@ void gamescreen(){
   
   backgrounddraw(playeroffset);
   
-  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize);
+  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize,width);
     
   progress();
   
