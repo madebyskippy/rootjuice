@@ -112,12 +112,12 @@ void introscreen(){
   }else if (timer < pantime+blenderdowntime+tutorialtime+goalshowtime){
     d=3;
     offset = playeroffset;
-    goalheight=height;
+    goalheight=0;
     goalwidth = 150;
   }else if (timer < pantime+blenderdowntime+tutorialtime+goalshowtime+goalpantime){
     d=4;
     offset = playeroffset;
-    goalheight = goalheight - ((float)(height-goalsize)/(float)goalpantime) * (millis()-lastframetime);
+    goalheight = goalheight + ((float)(goalsize)/(float)goalpantime) * (millis()-lastframetime);
     goalwidth = goalwidth + ((float)(width)/(float)goalpantime) * (millis()-lastframetime);
   }else{
     d=4;
@@ -129,12 +129,16 @@ void introscreen(){
     mode = "play";
   }
   
+  backgrounddraw(offset);
+  playerdraw(offset);
+  image(blender,blendx,blendery);
+  
   lastframetime = millis();
   if (d>2){
     if (goalwidth != width){
       tint((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]);
-      float x = width-star.width*3/4;
-      float y = -star.height*2/5-(height-goalheight);
+      float x = width/2-star.width/2-25;
+      float y = height/3-goalheight*8;
       
       pushMatrix();
       translate(x+star.width/2, y+star.height/2);
@@ -147,14 +151,10 @@ void introscreen(){
       tint(255);
     }
     if (d>3){
-      goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize, goalwidth);
+      goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight, width);
     }
       
-  }
-  backgrounddraw(offset);
-  playerdraw(offset);
-  image(blender,blendx,blendery);
-  
+  }  
   
   if (d>=0){
     image (dump[d],50,height/4);

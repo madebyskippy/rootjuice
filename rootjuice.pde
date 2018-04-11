@@ -108,7 +108,7 @@ void setup(){
   server = loadImage("server.png");
   order = loadImage("order.png");
   ordersmall = loadImage("order_small.png");
-  star = loadImage("star.png");
+  star = loadImage("starsm.png");
   
   squatframes[0][0] = loadImage("csquat0.png");
   squatframes[0][1] = loadImage("csquat1.png");
