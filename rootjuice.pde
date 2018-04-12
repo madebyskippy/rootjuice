@@ -8,7 +8,7 @@ Serial myPort;  // Create object from Serial class
 int val;      // Data received from the serial port
 
 // ------------------------- make this true when the arduino is connected
-boolean arduino = false;
+boolean arduino = true;
 // -------------------------
 
 int[] colors = {255,127,80,175,225,175};
@@ -66,7 +66,7 @@ String mode; //start, intro, play, end
 void setup(){
   println(Serial.list());
   if (arduino){
-    String portName = Serial.list()[7];
+    String portName = Serial.list()[9];
     myPort = new Serial(this, portName, 9600);
   }
   
