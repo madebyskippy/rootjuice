@@ -8,7 +8,7 @@ Serial myPort;  // Create object from Serial class
 int val;      // Data received from the serial port
 
 // ------------------------- make this true when the arduino is connected
-boolean arduino = true;
+boolean arduino = false;
 // -------------------------
 
 int[] colors = {255,127,80,175,225,175};
