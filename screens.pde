@@ -203,6 +203,10 @@ void gamescreen(){
   
   timerdraw((float)maxtime);
   
+  fill(0, 100);
+  text("Mix this color!", 100, 55);
+  text("Mix this color!", width-120, 55);
+  
   if (timer > maxtime){
     mode = "end";
   }

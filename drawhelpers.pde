@@ -8,6 +8,10 @@ void imageCenter(PImage img, float x, float y){
 void backgrounddraw(float offset){
   image(background,width/2-background.width/2,height-background.height+offset);
   image(ground_back,width/2-ground_back.width/2,height/2+offset);
+  
+  for( int i = 0; i < myClouds.length; i++){
+    myClouds[i].draw();
+  }
 }
 
 //showing input detection

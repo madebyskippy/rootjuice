@@ -51,6 +51,9 @@ PImage blender_mask;
 PImage mountains_mask;
 PImage carrot;
 PImage daikon;
+PImage[] clouds = new PImage[4];
+
+Cloud[] myClouds = new Cloud[4];
 
 PImage customer;
 PImage server;
@@ -95,6 +98,9 @@ void setup(){
   mountains_mask = loadImage("mountains.png");
   carrot = loadImage("carrot.png");
   daikon = loadImage("daikon.png");
+  for (int i = 0; i < myClouds.length; i++){
+    myClouds[i] = new Cloud(random(0, width), random(0, 0.1*height), random(1,4), i);
+  }
   
   introtext = loadImage("introtext.png");
   for (int i=0; i<dump.length-1; i++){
