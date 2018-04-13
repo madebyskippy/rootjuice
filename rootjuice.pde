@@ -48,7 +48,6 @@ PImage[] squatter = new PImage[2];
 PImage blender;
 PImage blender_empty;
 PImage blender_mask;
-PImage mountains_mask;
 PImage carrot;
 PImage daikon;
 PImage[] clouds = new PImage[4];
@@ -69,7 +68,7 @@ String mode; //start, intro, play, end
 void setup(){
   println(Serial.list());
   if (arduino){
-    String portName = Serial.list()[9];
+    String portName = Serial.list()[8];
     myPort = new Serial(this, portName, 9600);
   }
   
@@ -95,7 +94,6 @@ void setup(){
   blender = loadImage("blender.png");
   blender_empty = loadImage("blender_empty.png");
   blender_mask = loadImage("blender_mask.png");
-  mountains_mask = loadImage("mountains.png");
   carrot = loadImage("carrot.png");
   daikon = loadImage("daikon.png");
   for (int i = 0; i < myClouds.length; i++){
@@ -213,7 +211,9 @@ void carrotIn(){
    if (!carrotdown){
      carrot_noise.rewind();
      carrot_noise.play();
-     carrotmeterstart=millis();
+     if (mode == "start" || mode == "end"){
+       carrotmeterstart=millis();
+     }
    }
    if (mode == "play"){
      if (!carrotdown){
@@ -233,7 +233,9 @@ void daikonIn(){
   if (!daikondown){
    daikon_noise.rewind();
    daikon_noise.play();
-   daikonmeterstart=millis();
+   if (mode == "start" || mode == "end"){
+     daikonmeterstart=millis();
+   }
   }
   if (mode == "play"){
     if (!daikondown){

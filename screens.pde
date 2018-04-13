@@ -4,7 +4,7 @@ int instruc_change = 1;
 int counter;
 
 int introtime = 6*1000;
-int maxtime = 10*1000;
+int maxtime = 20*1000;
 int starttime = 1500;
 int pushtime = 1500;
 
@@ -65,9 +65,9 @@ void startscreen(){
 
   playerdraw(0);
   
-  if (carrotdown){
+  if (carrotdown && carrotmeterstart != 0){
     carrotmeter = min(millis()-carrotmeterstart,pushtime);
-  }if (daikondown){
+  }if (daikondown && daikonmeterstart != 0){
     daikonmeter = min(millis()-daikonmeterstart,pushtime);
   }
   
@@ -118,7 +118,9 @@ void introscreen(){
     d=4;
     offset = playeroffset;
     goalheight = goalheight + ((float)(goalsize)/(float)goalpantime) * (millis()-lastframetime);
+    goalheight = min(goalsize, goalheight);
     goalwidth = goalwidth + ((float)(width)/(float)goalpantime) * (millis()-lastframetime);
+    goalwidth = min(width, goalwidth);
   }else{
     d=4;
     offset = playeroffset;
@@ -190,7 +192,6 @@ void gamescreen(){
   tint(#f2ffe2);
   image(blender_mask,blendx,blendy-5);
   tint(255);
-  image(mountains_mask,width/2-mountains_mask.width/2-3,height/2+27);
   
   image(ground_back,width/2-ground_back.width/2,height/2+offset);
   
@@ -203,12 +204,17 @@ void gamescreen(){
   
   timerdraw((float)maxtime);
   
-  fill(0, 100);
-  text("Mix this color!", 100, 55);
-  text("Mix this color!", width-120, 55);
+  fill(255);
+  textFont(fonts, 50);
+  textAlign(LEFT,TOP);
+  text("Mix this color!", 50, 25);
+  textAlign(RIGHT,TOP);
+  text("Mix this color!", width-50, 25);
   
   if (timer > maxtime){
     mode = "end";
+    carrotmeterstart = 0;
+    daikonmeterstart = 0;
   }
 }
 
@@ -218,17 +224,19 @@ void endscreen(){
   
   result();
   
-  if (carrotdown){
+  if (carrotdown && carrotmeterstart != 0){
     carrotmeter = min(millis()-carrotmeterstart,pushtime);
-  }if (daikondown){
+  }if (daikondown && daikonmeterstart != 0){
     daikonmeter = min(millis()-daikonmeterstart,pushtime);
   }
   
-  if (carrotmeter >= pushtime){// && daikonmeter >= pushtime){
+  if (carrotmeter >= pushtime){
     reset();
     timer = 0;
     timestart = millis() - (pantime+blenderdowntime+tutorialtime);
     mode = "intro";
+    carrotmeterstart = 0;
+    daikonmeterstart = 0;
   }if (daikonmeter >= pushtime){
     mode = "start";
     timer = 0;

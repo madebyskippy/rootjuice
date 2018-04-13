@@ -31,6 +31,19 @@ void meterdraw(float offset){
   fill(colors[3],colors[4],colors[5]);
   rect(x+w,y,-1*(w/2)*daikonmeter/pushtime,h);
   
+  if (carrotmeter/pushtime == 1){
+    textFont(fonts, 30);
+    fill(0);
+    textAlign(RIGHT,CENTER);
+    text("Ready!",x+w/2-15,y+h/2);
+  }
+  if (daikonmeter/pushtime == 1){
+    textFont(fonts, 30);
+    fill(0);
+    textAlign(LEFT,CENTER);
+    text("Ready!",x+w/2+15,y+h/2);
+  }
+  
   //lines
   noFill();
   strokeWeight(5);
@@ -72,7 +85,6 @@ void progress(){
   tint(#f2ffe2);
   image(blender_mask,blendx,blendy-5);
   tint(255);
-  image(mountains_mask,width/2-mountains_mask.width/2-3,height/2+27);
   image(blender_empty,blendx,blendy);
 }
 
