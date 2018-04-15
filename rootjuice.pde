@@ -265,7 +265,14 @@ void reset(){
   carrotmeterstart=0;
   daikonmeterstart=0;
   
-  juice[0] = round(random(0,10));
+  juice[0] = floor(random(1,10));
+  if (juice[0] == 5){
+    if (random(0,1) >0.5){
+      juice[0] = 6;
+    }else{
+      juice[0] = 4;
+    }
+  }
   juice[1] = 10-juice[0];
 
   float percentagecarrot = (float)juice[0] / (float)(juice[0]+juice[1]);

@@ -86,6 +86,16 @@ void progress(){
   image(blender_mask,blendx,blendy-5);
   tint(255);
   image(blender_empty,blendx,blendy);
+  
+  textAlign(CENTER,CENTER);
+  textFont(fonts,70);
+  fill(0);
+  float scarrot = ((float)score[0]/(float)(score[0]+score[1]))*10;
+  if (scarrot > juice[0]){
+    text("Too much\ncarrot!",width*1/4,height*2/5);
+  }else if (scarrot < juice[0]){
+    text("Too much\ndaikon!",width*3/4,height*2/5);
+  }
 }
 
 void result(){

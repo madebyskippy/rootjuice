@@ -149,7 +149,6 @@ void introscreen(){
       popMatrix();
       counter++;
       
-      //image(star,width-star.width*3/4,-star.height*2/5-(height-goalheight));
       tint(255);
     }
     if (d>3){
