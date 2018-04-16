@@ -62,10 +62,23 @@ void meterdraw(float offset){
   }
 }
 
-void goaldraw(int r, int g, int b, float h, float w){
+//for juices you finished
+void bottledraw(){
+  for (int i=0; i<numJuices; i++){
+    tint(doneJuices.get(i).x,doneJuices.get(i).y,doneJuices.get(i).z);
+    image(bottle,width/2-300+bottle.width*1.5*i,height-150);
+  }
+  tint(255);
+}
+
+void goaldraw(int r, int g, int b){
   fill(r,g,b);
   noStroke();
-  rect(width-w,0,w,h);
+  int x = width/2-700;
+  int y = 200;
+  rect(x+50,y+50,150,175);
+  image(order,x,y);
+  image(customer,x-15,y-158);
 }
 
 void progress(){
@@ -92,9 +105,11 @@ void progress(){
   fill(0);
   float scarrot = ((float)score[0]/(float)(score[0]+score[1]))*10;
   if (scarrot > juice[0]){
-    text("Too much\ncarrot!",width*1/4,height*2/5);
+    textLeading(60);
+    text("Too much\ncarrot!",width*0.275,height*0.5);
   }else if (scarrot < juice[0]){
-    text("Too much\ndaikon!",width*3/4,height*2/5);
+    textLeading(60);
+    text("Too much\ndaikon!",width*0.725,height*0.5);
   }
 }
 

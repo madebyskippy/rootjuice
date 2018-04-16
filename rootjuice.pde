@@ -32,14 +32,17 @@ float[] scorecolor = {0,0,0};
 int timer;
 int timestart;
 
+int numJuices;
+ArrayList<PVector> doneJuices; //color
+
 PImage background;
 PImage ground_back;
 PImage ground_front;
 PImage title, title_bg;
 PImage instruc;
 
-PImage[] dump = new PImage[5];
-PImage[] tut = new PImage[5];
+PImage[] dump = new PImage[4];
+PImage[] tut = new PImage[4];
 PImage introtext;
 
 PImage[][] squatframes = new PImage[2][2];
@@ -59,6 +62,10 @@ PImage server;
 PImage order;
 PImage ordersmall;
 PImage star;
+PImage bottle;
+
+PImage juicedoneimg;
+PImage juicedoneimgbottle;
 
 PFont fontk;
 PFont fonts;
@@ -68,7 +75,7 @@ String mode; //start, intro, play, end
 void setup(){
   println(Serial.list());
   if (arduino){
-    String portName = Serial.list()[8];
+    String portName = Serial.list()[9];
     myPort = new Serial(this, portName, 9600);
   }
   
@@ -101,18 +108,20 @@ void setup(){
   }
   
   introtext = loadImage("introtext.png");
-  for (int i=0; i<dump.length-1; i++){
+  for (int i=0; i<dump.length; i++){
     dump[i] = loadImage("dump"+str(i+1)+".png");
     tut[i] = loadImage("tut"+str(i+1)+".png");
   }
-  dump[4] = loadImage("dump2.png");
-  tut[4] = loadImage("tut5.png");
   
   customer = loadImage("customer.png");
   server = loadImage("server.png");
   order = loadImage("order.png");
   ordersmall = loadImage("order_small.png");
   star = loadImage("starsm.png");
+  bottle = loadImage("bottle.png");
+  
+  juicedoneimg = loadImage("juicedone.png");
+  juicedoneimgbottle = loadImage("juicedonebottle.png");
   
   squatframes[0][0] = loadImage("csquat0.png");
   squatframes[0][1] = loadImage("csquat1.png");
@@ -121,6 +130,7 @@ void setup(){
   squatter[0] = squatframes[0][0];
   squatter[1] = squatframes[1][0];
   
+  doneJuices = new ArrayList<PVector>();
 
   startscreen_setup();
   gamescreen_setup();
@@ -195,7 +205,7 @@ void keyReleased(){
  }if (key == ' '){
     if (mode == "start"){
       timer = 0;
-      timestart = millis() - (pantime+blenderdowntime+tutorialtime);
+      timestart = millis() - (pantime+blenderdowntime+tutorialtime+goalshowtime);
       mode = "intro";
    }else if (mode == "play"){
      if (score[0]+score[1] > 0){
@@ -255,6 +265,7 @@ void daikonOut(){
 void reset(){
   background(255);
   timer = 0;
+  juicedonetimer = 0;
   
   score[0] = 0;
   score[1] = 0;
@@ -265,6 +276,20 @@ void reset(){
   carrotmeterstart=0;
   daikonmeterstart=0;
   
+  numJuices = 0;
+  
+  newJuice();
+  
+  doneJuices = new ArrayList<PVector>();
+  juicedonetimer = 0;
+  juicedone = false;
+  
+  noStroke();
+  
+  mode = "start";
+}
+
+void newJuice(){
   juice[0] = floor(random(1,10));
   if (juice[0] == 5){
     if (random(0,1) >0.5){
@@ -279,8 +304,4 @@ void reset(){
   juicecolor[0] = colors[3]+(colors[0]-colors[3])*percentagecarrot; 
   juicecolor[1] = colors[4]+(colors[1]-colors[4])*percentagecarrot;
   juicecolor[2] = colors[5]+(colors[2]-colors[5])*percentagecarrot;
-  
-  noStroke();
-  
-  mode = "start";
 }

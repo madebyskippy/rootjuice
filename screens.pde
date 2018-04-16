@@ -4,7 +4,7 @@ int instruc_change = 1;
 int counter;
 
 int introtime = 6*1000;
-int maxtime = 20*1000;
+int maxtime = 60*1000;
 int starttime = 1500;
 int pushtime = 1500;
 
@@ -15,6 +15,10 @@ int[] tutorialtimes = new int[]{3000,4000,5000};
 int tutx,tuty;
 int goalshowtime = 3*1000;
 int goalpantime = 3*1000;
+
+int juicedonetime = 2*1000;
+int juicedonetimer;
+boolean juicedone;
 
 float blendercoef = 0; //for making the blender poof down
 
@@ -43,8 +47,8 @@ void gamescreen_setup(){
   blendx = width/2-blender.width/2-10;
   blendy = height-blender.height-300;
   blendercoef = (float)(blendy+blender.height)/(float)(blenderdowntime*blenderdowntime);
-  tutx = width/2+50;
-  tuty = 100;
+  tutx = width/2;
+  tuty = 0;
 }
 
 void startscreen(){
@@ -114,15 +118,8 @@ void introscreen(){
     offset = playeroffset;
     goalheight=0;
     goalwidth = 150;
-  }else if (timer < pantime+blenderdowntime+tutorialtime+goalshowtime+goalpantime){
-    d=4;
-    offset = playeroffset;
-    goalheight = goalheight + ((float)(goalsize)/(float)goalpantime) * (millis()-lastframetime);
-    goalheight = min(goalsize, goalheight);
-    goalwidth = goalwidth + ((float)(width)/(float)goalpantime) * (millis()-lastframetime);
-    goalwidth = min(width, goalwidth);
   }else{
-    d=4;
+    d=3;
     offset = playeroffset;
     goalheight = goalsize;
     goalwidth = width;
@@ -135,27 +132,7 @@ void introscreen(){
   playerdraw(offset);
   image(blender,blendx,blendery);
   
-  lastframetime = millis();
-  if (d>2){
-    if (goalwidth != width){
-      tint((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]);
-      float x = width/2-star.width/2-25;
-      float y = height/3-goalheight*8;
-      
-      pushMatrix();
-      translate(x+star.width/2, y+star.height/2);
-      rotate(counter*TWO_PI/720);
-      image(star, -star.width/2, -star.height/2);
-      popMatrix();
-      counter++;
-      
-      tint(255);
-    }
-    if (d>3){
-      goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalheight, width);
-    }
-      
-  }  
+  lastframetime = millis(); 
   
   if (d>=0){
     image (dump[d],50,height/4);
@@ -166,7 +143,6 @@ void introscreen(){
 
 void gamescreen(){
   
-  //timer = timer + 1;
   timer = millis()-timestart;
     
   if (carrotstate > -1){
@@ -183,8 +159,6 @@ void gamescreen(){
   }
   
   backgrounddraw(playeroffset);
-  
-  goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2],goalsize,width);
     
   progress();
   
@@ -203,12 +177,34 @@ void gamescreen(){
   
   timerdraw((float)maxtime);
   
-  fill(255);
-  textFont(fonts, 50);
-  textAlign(LEFT,TOP);
-  text("Mix this color!", 50, 25);
-  textAlign(RIGHT,TOP);
-  text("Mix this color!", width-50, 25);
+  float scarrot = ((float)score[0]/(float)(score[0]+score[1]))*10;
+  if (scarrot == juice[0] && !juicedone){
+    //done the juice. next one
+    juicedonetimer = millis();
+    juicedone = true;
+  }
+  if (juicedone){
+    textFont(fonts,100);
+    text("NICE!!!",width/2,height/2);
+    int x = width/2-juicedoneimg.width/2;
+    int y = height/2-juicedoneimg.height/2;
+    image(juicedoneimg,x,y);
+    tint((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]);
+    image(juicedoneimgbottle,x,y);
+    tint(255);
+    if (millis()-juicedonetimer > juicedonetime){
+      doneJuices.add(new PVector((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]));
+      newJuice();
+      numJuices ++ ;
+      score[0] = 0;
+      score[1] = 0;
+      juicedone = false;
+    }
+  }else{
+    goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]);
+  }
+  
+  bottledraw();
   
   if (timer > maxtime){
     mode = "end";
@@ -232,7 +228,7 @@ void endscreen(){
   if (carrotmeter >= pushtime){
     reset();
     timer = 0;
-    timestart = millis() - (pantime+blenderdowntime+tutorialtime);
+    timestart = millis() - (pantime+blenderdowntime+tutorialtime+goalshowtime);
     mode = "intro";
     carrotmeterstart = 0;
     daikonmeterstart = 0;
