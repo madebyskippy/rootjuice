@@ -4,7 +4,7 @@ int instruc_change = 1;
 int counter;
 
 int introtime = 6*1000;
-int maxtime = 60*1000;
+int maxtime = 10*1000;
 int starttime = 1500;
 int pushtime = 1500;
 
@@ -181,8 +181,11 @@ void gamescreen(){
   if (scarrot == juice[0] && !juicedone){
     //done the juice. next one
     juicedonetimer = millis();
+    doneJuices.add(new PVector((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]));
+    numJuices ++ ;
     juicedone = true;
   }
+  
   if (juicedone){
     textFont(fonts,100);
     text("NICE!!!",width/2,height/2);
@@ -193,9 +196,7 @@ void gamescreen(){
     image(juicedoneimgbottle,x,y);
     tint(255);
     if (millis()-juicedonetimer > juicedonetime){
-      doneJuices.add(new PVector((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]));
       newJuice();
-      numJuices ++ ;
       score[0] = 0;
       score[1] = 0;
       juicedone = false;
@@ -204,7 +205,7 @@ void gamescreen(){
     goaldraw((int)juicecolor[0],(int)juicecolor[1],(int)juicecolor[2]);
   }
   
-  bottledraw();
+  bottledraw(0);
   
   if (timer > maxtime){
     mode = "end";
@@ -217,7 +218,11 @@ void endscreen(){
   backgrounddraw(playeroffset);
   playerdraw(playeroffset);
   
-  result();
+  //result();
+  textFont(fonts,80);
+  textAlign(CENTER,CENTER);
+  text("You made "+str(numJuices)+" juices!",width/2,height/2);
+  bottledraw(600);
   
   if (carrotdown && carrotmeterstart != 0){
     carrotmeter = min(millis()-carrotmeterstart,pushtime);

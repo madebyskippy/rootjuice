@@ -63,10 +63,11 @@ void meterdraw(float offset){
 }
 
 //for juices you finished
-void bottledraw(){
+void bottledraw(int offset){
   for (int i=0; i<numJuices; i++){
     tint(doneJuices.get(i).x,doneJuices.get(i).y,doneJuices.get(i).z);
-    image(bottle,width/2-300+bottle.width*1.5*i,height-150);
+    image(bottle,width/2-300+bottle.width*1.5*(i%6),
+          height-150 - bottle.height*(floor(i/6)) - offset);
   }
   tint(255);
 }

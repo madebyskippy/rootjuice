@@ -227,8 +227,10 @@ void carrotIn(){
    }
    if (mode == "play"){
      if (!carrotdown){
-       score[0] ++;
-       carrotstate = 0;
+      if (!juicedone){
+         score[0] ++;
+         carrotstate = 0;
+      }
      }
    }
    carrotdown = true;
@@ -249,8 +251,10 @@ void daikonIn(){
   }
   if (mode == "play"){
     if (!daikondown){
-      score[1] ++;
-      daikonstate = 0;
+      if (!juicedone){
+        score[1] ++;
+        daikonstate = 0;
+      }
     }
   }
   daikondown = true;
