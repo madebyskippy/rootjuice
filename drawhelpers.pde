@@ -64,9 +64,19 @@ void meterdraw(float offset){
 
 //for juices you finished
 void bottledraw(int offset){
-  for (int i=0; i<numJuices; i++){
+  int num = numJuices;
+  for (int i=0; i<num; i++){
     tint(doneJuices.get(i).x,doneJuices.get(i).y,doneJuices.get(i).z);
-    image(bottle,width/2-300+bottle.width*1.5*(i%6),
+    int n = num;
+    if (num > 6) {
+      if (i+1>6){
+        n = num-6;
+      }else{
+        n = 6;
+      }
+    }
+    int xoffset = (int)(bottle.width*1.5*(float)((float)(n)/(float)(2)));
+    image(bottle,width/2-xoffset+bottle.width*1.5*(i%6),
           height-150 - bottle.height*(floor(i/6)) - offset);
   }
   tint(255);
