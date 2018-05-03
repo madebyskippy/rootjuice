@@ -2,13 +2,14 @@ import ddf.minim.*;
 import processing.serial.*;
 
 Minim minim;
-AudioPlayer carrot_noise, daikon_noise;
+AudioPlayer carrot_noise, daikon_noise, ding_noise, beep_noise;
+int beepPlayed;
 
 Serial myPort;  // Create object from Serial class
 int val;      // Data received from the serial port
 
 // ------------------------- make this true when the arduino is connected
-boolean arduino = false;
+boolean arduino = true;
 // -------------------------
 
 int[] colors = {255,127,80,175,225,175};
@@ -89,6 +90,8 @@ void setup(){
   minim = new Minim(this);
   carrot_noise = minim.loadFile("pickup_coin.mp3");
   daikon_noise = minim.loadFile("pickup_coin2.mp3");
+  ding_noise = minim.loadFile("side8.mp3");
+  beep_noise = minim.loadFile("scor.mp3");
   
   background = loadImage("background.png");
   ground_back = loadImage("ground_back.png");
@@ -270,6 +273,7 @@ void reset(){
   background(255);
   timer = 0;
   juicedonetimer = 0;
+  beepPlayed =0 ;
   
   score[0] = 0;
   score[1] = 0;

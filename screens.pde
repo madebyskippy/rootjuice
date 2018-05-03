@@ -4,7 +4,7 @@ int instruc_change = 1;
 int counter;
 
 int introtime = 6*1000;
-int maxtime = 10*1000;
+int maxtime = 60*1000;
 int starttime = 1500;
 int pushtime = 1500;
 
@@ -207,7 +207,23 @@ void gamescreen(){
   
   bottledraw(0);
   
+  if (timer > maxtime-3000 && beepPlayed == 0){
+    beepPlayed = 1;
+    beep_noise.rewind();
+    beep_noise.play();
+  }if (timer > maxtime-2000 && beepPlayed == 1){
+    beepPlayed = 2;
+    beep_noise.rewind();
+    beep_noise.play();
+  }if (timer > maxtime-1000 && beepPlayed == 2){
+    beepPlayed = 3;
+    beep_noise.rewind();
+    beep_noise.play();
+  }
+  
   if (timer > maxtime){
+    ding_noise.rewind();
+    ding_noise.play();
     mode = "end";
     carrotmeterstart = 0;
     daikonmeterstart = 0;
