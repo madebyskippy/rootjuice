@@ -9,7 +9,7 @@ Serial myPort;  // Create object from Serial class
 int val;      // Data received from the serial port
 
 // ------------------------- make this true when the arduino is connected
-boolean arduino = true;
+boolean arduino = false;
 // -------------------------
 
 int[] colors = {255,127,80,175,225,175};
@@ -88,10 +88,10 @@ void setup(){
   textAlign(CENTER,CENTER);
   
   minim = new Minim(this);
-  carrot_noise = minim.loadFile("pickup_coin.mp3");
-  daikon_noise = minim.loadFile("pickup_coin2.mp3");
-  ding_noise = minim.loadFile("side8.mp3");
-  beep_noise = minim.loadFile("scor.mp3");
+  carrot_noise = minim.loadFile("sound/pop.wav");
+  daikon_noise = minim.loadFile("sound/pop2.wav");
+  ding_noise = minim.loadFile("sound/beepclean-up.wav");
+  beep_noise = minim.loadFile("sound/beepclean.wav");
   
   background = loadImage("background.png");
   ground_back = loadImage("ground_back.png");

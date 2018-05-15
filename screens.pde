@@ -4,7 +4,7 @@ int instruc_change = 1;
 int counter;
 
 int introtime = 6*1000;
-int maxtime = 60*1000;
+int maxtime = 10*1000;
 int starttime = 1500;
 int pushtime = 1500;
 
